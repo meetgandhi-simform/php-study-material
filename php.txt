@@ -1,0 +1,3 @@
+To Run PHP Anywhere From Our Directory
+
+php -S localhost:8000
