@@ -757,3 +757,339 @@ $name = "Meet";
 ```
 - ✔️ $var holds "name"
 - ✔️ $$var becomes $name
+
+# Copy On Write
+
+Instead of copying data immediately when you assign a variable to another, PHP shares the same memory.
+
+👉 It only creates a real copy when one of the variables is modified.
+
+🔹 Example 1: Without Modification
+```php
+$a = [1, 2, 3];
+$b = $a;  // No actual copy yet
+
+// Both $a and $b point to same memory internally
+```
+
+✔️ At this point:
+- No new memory is allocated
+- PHP just increases a reference count
+
+🔹 Example 2: When Modification Happens
+```php
+$a = [1, 2, 3];
+$b = $a;
+
+$b[0] = 100;  // Modification triggers copy
+```
+
+✔️ Now:
+- PHP creates a separate copy for $b
+- $a remains unchanged
+
+👉 Final values:
+```php
+$a = [1, 2, 3];
+$b = [100, 2, 3];
+```
+
+🔍 What’s Happening Internally?
+- $a is created → memory allocated
+- $b = $a → both point to same memory (refcount = 2)
+- $b[0] = 100 → PHP detects change
+- COW triggers → data is copied
+- $b gets its own memory
+
+⚡ Why PHP Uses Copy-On-Write
+
+✅ Benefits
+- Saves memory
+- Faster assignments
+- Efficient for large arrays/strings
+
+🔸 Important Note: Reference vs COW
+```php
+$a = [1, 2, 3];
+$b = &$a;  // reference (NOT copy-on-write)
+
+$b[0] = 100;
+```
+
+✔️ Now:
+```php  
+$a = [100, 2, 3];
+$b = [100, 2, 3];
+```
+
+👉 Because:
+- & creates a true reference
+- No COW happens
+
+🆚 COW vs Reference (Quick Table)
+| Feature       | Copy-On-Write        | Reference (`&`) |
+| ------------- | -------------------- | --------------- |
+| Copy created? | Only on modification | Never           |
+| Memory usage  | Optimized            | Shared          |
+| Independence  | Yes after change     | No              |
+| Performance   | Fast                 | Fast but risky  |
+
+# PHP Control Structure
+
+A control structure in PHP is used to control the flow of execution of your program.
+
+👉 It decides:
+- Which code runs
+- When it runs
+- How many times it runs
+
+### 🔹 Types of Control Structures in PHP
+
+There are mainly 3 categories:
+
+### 1️⃣ Conditional Statements (Decision Making)
+
+👉 Used to execute code based on conditions
+
+✅ if Statement
+```php
+$age = 18;
+
+if ($age >= 18) {
+    echo "Adult";
+}
+```
+
+✅ if...else
+```php
+$age = 16;
+
+if ($age >= 18) {
+    echo "Adult";
+} else {
+    echo "Minor";
+}
+```
+
+✅ if...elseif...else
+```php
+$marks = 75;
+
+if ($marks >= 90) {
+    echo "A";
+} elseif ($marks >= 70) {
+    echo "B";
+} else {
+    echo "C";
+}
+```
+
+✅ switch Statement
+```php
+$day = "Monday";
+
+switch ($day) {
+    case "Monday":
+        echo "Start of week";
+        break;
+    case "Friday":
+        echo "Weekend coming";
+        break;
+    default:
+        echo "Normal day";
+}
+```
+✔️ Used when multiple conditions depend on same variable
+
+### 2️⃣ Loops (Iteration)
+
+👉 Used to execute code multiple times
+
+🔁 for Loop
+```php
+for ($i = 0; $i < 5; $i++) {
+    echo $i;
+}
+```
+
+🔁 while Loop
+```php
+$i = 0;
+
+while ($i < 5) {
+    echo $i;
+    $i++;
+}
+```
+
+🔁 do...while Loop
+```php
+$i = 0;
+
+do {
+    echo $i;
+    $i++;
+} while ($i < 5);
+```
+
+🔁 foreach Loop (Very Important 🔥)
+```php
+$arr = [10, 20, 30];
+
+foreach ($arr as $value) {
+    echo $value;
+}
+```
+✔️ Mostly used with arrays
+
+### 3️⃣ Control Flow Statements (Jump Statements)
+
+👉 Used to alter normal flow
+
+⏭️ break
+```php
+for ($i = 0; $i < 5; $i++) {
+    if ($i == 3) break;
+    echo $i;
+}
+```
+✔️ Stops loop immediately
+
+
+⏭️ continue
+```php
+for ($i = 0; $i < 5; $i++) {
+    if ($i == 2) continue;
+    echo $i;
+}
+```
+✔️ Skips current iteration
+
+🔙 return
+```php
+function test() {
+    return "Hello";
+}
+```
+✔️ Exits function
+
+🛑 exit / die
+```php
+echo "Start";
+exit();
+echo "End"; // won't run
+```
+
+# PHP Loops
+
+Loops in PHP are used to execute a block of code repeatedly until a condition is met.
+
+👉 Instead of writing the same code multiple times, you use loops to automate repetition.
+
+🧠 Simple Definition (Interview Ready)
+
+A loop in PHP is a control structure that allows repeated execution of a block of code based on a condition.
+
+## 🔹 Types of Loops in PHP
+
+There are 4 main loops:
+
+### 1️⃣ for Loop
+
+👉 Used when you know how many times you want to run the loop
+
+✅ Syntax
+```php
+for (initialization; condition; increment/decrement) {
+    // code
+}
+```
+
+🔹 Example
+```php
+for ($i = 1; $i <= 5; $i++) {
+    echo $i . " ";
+}
+```
+✔️ Output:
+```bash
+1 2 3 4 5
+```
+
+🧠 Use Case
+- Fixed iterations
+- Counting loops
+
+### 2️⃣ while Loop
+
+👉 Used when the number of iterations is not fixed
+
+✅ Syntax
+```php
+while (condition) {
+    // code
+}
+```
+
+🔹 Example
+```php
+$i = 1;
+
+while ($i <= 5) {
+    echo $i . " ";
+    $i++;
+}
+```
+
+⚠️ Important
+
+👉 If condition never becomes false → infinite loop
+
+### 3️⃣ do...while Loop
+
+👉 Executes at least once, even if condition is false
+
+✅ Syntax
+```php
+do {
+    // code
+} while (condition);
+```
+
+🔹 Example
+```php
+$i = 10;
+
+do {
+    echo $i;
+} while ($i < 5);
+```
+✔️ Output:
+```
+10
+```
+👉 Runs once even though condition is false
+
+### 4️⃣ foreach Loop (Most Important 🔥)
+
+👉 Used for arrays and collections
+
+✅ Syntax
+```php
+foreach ($array as $value) {
+    // code
+}
+```
+
+🔹 Example
+```php
+$users = ["Meet", "Rohan", "Amit"];
+
+foreach ($users as $user) {
+    echo $user . " ";
+}
+```
+✔️ Output:
+```
+
+```
