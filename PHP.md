@@ -604,3 +604,156 @@ $b = ["b" => 2];
 $c = $a + $b;
 ```
 
+## Array Functions
+
+### count()
+
+Counts number of elements
+```php
+$arr = ["A", "B", "C"];
+echo count($arr); // 3
+```
+- ✔ Used in loops
+- ✔ Used in validations
+
+📌 Very commonly used in real projects
+
+### print_r() / var_dump()
+
+👉 Used to display arrays (debugging)
+```php
+print_r($arr);
+```
+```php
+var_dump($arr);
+```
+- ✔ Debugging tool
+- ✔ Shows structure of array
+
+### array_push() → Add Element
+
+👉 Adds element at the end
+```php
+$arr = ["A", "B"];
+array_push($arr, "C");
+```
+✔ Output: ["A", "B", "C"]
+
+### array_pop() → Remove Last Element
+```php
+array_pop($arr);
+```
+- ✔ Removes last element
+- ✔ Useful in stack operations
+
+### array_shift() → Remove First Element
+```php
+array_shift($arr);
+```
+- ✔ Removes first element
+- ✔ Re-indexes array
+
+### array_unshift() → Add at Beginning
+```php
+array_unshift($arr, "Z");
+```
+✔ Adds element at start
+
+### array_merge() → Combine Arrays
+```php
+$a = ["A", "B"];
+$b = ["C", "D"];
+
+$c = array_merge($a, $b);
+```
+✔ Output: ["A","B","C","D"]
+
+### in_array() → Search Value
+```php
+$arr = ["A", "B", "C"];
+
+if (in_array("B", $arr)) {
+    echo "Found";
+}
+```
+✔ Returns true/false
+
+### array_keys() → Get Keys
+```php
+$arr = ["name" => "Meet", "age" => 21];
+
+print_r(array_keys($arr));
+```
+✔ Output: ["name", "age"]
+
+### array_values() → Get Values
+```php
+print_r(array_values($arr));
+```
+✔ Output: ["Meet", 21]
+
+### sort() → Sort Array (Ascending)
+```php
+$arr = [3, 1, 2];
+sort($arr);
+```
+✔ Output: [1,2,3]
+
+### rsort() → Descending Sort
+```php
+rsort($arr);
+```
+✔ Output: [3,2,1]
+
+### asort() → Sort Associative (by Value)
+```php
+$arr = ["a"=>3, "b"=>1, "c"=>2];
+asort($arr);
+```
+✔ Maintains keys
+
+### ksort() → Sort by Keys
+```php
+ksort($arr);
+```
+✔ Sorts based on keys
+
+### explode() → String → Array
+```php
+$str = "A,B,C";
+$arr = explode(",", $str);
+```
+✔ Output: ["A","B","C"]
+
+### implode() → Array → String
+```php
+$arr = ["A","B","C"];
+$str = implode(",", $arr);
+```
+✔ Output: "A,B,C"
+
+### is_array() → Check Type
+```php
+is_array($arr); // true or false
+```
+✔ Used in validation
+
+# Variable Variable in PHP
+
+A variable variable means:
+
+👉 The name of a variable is stored inside another variable
+
+So PHP uses the value of one variable as the name of another variable.
+
+🧠 Basic Syntax
+```php
+$var = "name";
+$$var = "Meet";
+```
+👉 This means:
+```php
+$name = "Meet";
+```
+- ✔️ $var holds "name"
+- ✔️ $$var becomes $name

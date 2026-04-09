@@ -1,3 +1,7 @@
 To Run PHP Anywhere From Our Directory
 
 php -S localhost:8000
+
+docker restart $(docker ps -aq)
+
+ docker update --restart=unless-stopped $(docker ps -aq)
